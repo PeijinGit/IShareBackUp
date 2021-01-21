@@ -1,0 +1,12 @@
+.loginform{
+    width: 100vw;
+    height: 100vh;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    .loginforminside{
+        width: 300px;
+        //background: rgb(61, 171, 199);
+        margin: auto;
+    }
+}
