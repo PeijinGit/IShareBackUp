@@ -1,2 +1,2 @@
-# IShareBackUp
-Backup and beta vision project for IShare
+# ISharePortal
+Front-end For IShare
