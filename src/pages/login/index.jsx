@@ -17,7 +17,7 @@ export default class index extends Component {
     }
 
     validLogin(name, pwd, history, controllerName) {
-        axios.post(`/User/${controllerName}`, {
+        axios.post(`https://ishareapi.azurewebsites.net/User/${controllerName}`, {
             Username: name,
             Password: pwd
         })
@@ -76,7 +76,6 @@ export default class index extends Component {
                         </Form.Item>
                         <Button type={"primary"} onClick={() => {
                             this.validLogin(this.state.username, this.state.pwd, this.props.history, 'ValidateLogin')
-                            alert();
                         }}>
                             Login</Button>
                     </Form>

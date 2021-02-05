@@ -19,7 +19,7 @@ export default function DemoHome(props) {
 
     useEffect(() => {
         var userId= localStorage["ishareToken"]
-        axios.get("/Events/ListEventsById", {
+        axios.get("https://ishareapi.azurewebsites.net/Events/ListEventsById", {
             params: {
               id: userId
             },
