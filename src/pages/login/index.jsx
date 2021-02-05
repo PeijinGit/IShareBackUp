@@ -76,7 +76,6 @@ export default class index extends Component {
                         </Form.Item>
                         <Button type={"primary"} onClick={() => {
                             this.validLogin(this.state.username, this.state.pwd, this.props.history, 'ValidateLogin')
-                            alert();
                         }}>
                             Login</Button>
                     </Form>
