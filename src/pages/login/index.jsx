@@ -17,7 +17,7 @@ export default class index extends Component {
     }
 
     validLogin(name, pwd, history, controllerName) {
-        axios.post(`/User/${controllerName}`, {
+        axios.post(`https://ishareapi.azurewebsites.net/User/${controllerName}`, {
             Username: name,
             Password: pwd
         })
