@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import axios from 'axios'
+//import { validLogin } from "../../api";
+import { createSaveUserInfoAction } from "../../redux/action_creators/login_action";
 import 'antd/dist/antd.css'
 import { Form, Input, Button } from 'antd'
 import './login.scss'
+import { baseurl } from "../../config";
 
 
-export default class index extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,8 +21,8 @@ export default class index extends Component {
         }
     }
 
-    validLogin(name, pwd, history, controllerName) {
-        axios.post(`https://ishareapi.azurewebsites.net/User/${controllerName}`, {
+    validLogin = (name, pwd, history, controllerName) => {
+        axios.post(baseurl+`User/${controllerName}`, {
             Username: name,
             Password: pwd
         })
@@ -27,9 +32,10 @@ export default class index extends Component {
                 } else if (res.status === 200) {
                     alert("success")
                     console.log(res.data);
-                    localStorage["ishareToken"] = res.data.id
-                    history.push({
-                        pathname: 'home'
+                    
+                    this.props.saveUserInfo({ user: res.data })
+                    history.replace({
+                        pathname: 'admin'
                     })
                 }
             })
@@ -39,16 +45,22 @@ export default class index extends Component {
     }
 
     responseFacebook = (response) => {
-        this.validLogin(response.name,'0', this.props.history, 'ThirdPartyLogin');
+        this.validLogin(response.name, '0', this.props.history, 'ThirdPartyLogin')
+
     }
 
 
     responseGoogle = (response) => {
         var res = response.profileObj;
-        this.validLogin(res.name,'0', this.props.history, 'ThirdPartyLogin');
+        let { name } = res
+        this.validLogin(name, '0', this.props.history, 'ThirdPartyLogin')
     };
 
     render() {
+        if(this.props.isLogin) {
+            return<Redirect to="admin"/>
+        }
+
         return (
             <div className="loginform">
                 <div className="loginforminside">
@@ -76,6 +88,7 @@ export default class index extends Component {
                         </Form.Item>
                         <Button type={"primary"} onClick={() => {
                             this.validLogin(this.state.username, this.state.pwd, this.props.history, 'ValidateLogin')
+
                         }}>
                             Login</Button>
                     </Form>
@@ -99,9 +112,16 @@ export default class index extends Component {
                             icon="fa-facebook"
                         />
                     </div>
-
                 </div>
             </div>
         )
     }
 }
+
+export default connect(
+    state => ({isLogin:state.userInfo.isLogin}),
+    {
+        saveUserInfo: createSaveUserInfoAction
+
+    }
+)(Login)
