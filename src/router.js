@@ -1,17 +1,19 @@
-import {  HashRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Redirect} from "react-router-dom";
 import React from 'react'
-import Home from "./containers/home";
-import Login from "./containers/login/index";
+import Login from "./containers/login";
 import Admin from "./containers/Admin";
+import Register from "./containers/Register";
 
 
 export default function IRouter() {
     return <Router>
-
+        
         <Switch>
-            <Route exact path="/" component={Login} />
-            <Route exact path="/home" component={Home} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/admin" component={Admin} />
+            <Route exact path="/register" component={Register} />
+            <Redirect to='/admin' />
         </Switch>
 
     </Router>

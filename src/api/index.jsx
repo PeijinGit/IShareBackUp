@@ -1,10 +1,9 @@
 import axios from 'axios'
+import {baseurl} from "../config";
 
-export const validLogin = (name, pwd, history, controllerName) => {
-    axios.post(`https://ishareapi.azurewebsites.net/User/${controllerName}`, {
-        Username: name,
-        Password: pwd
-    })
+export const testApi = (controllerName) => {
+    console.log("enter tests");
+ return axios.post(baseurl+`Events/${controllerName}`)
         // .then((res) => {
         //     if (res.status === 401) {
         //         alert(res.data)
@@ -22,3 +21,10 @@ export const validLogin = (name, pwd, history, controllerName) => {
         //     console.log(error);
         // });
 }
+
+export const RegisterUser = (user, controllerName) => {
+    console.log("register success"+ user);
+    return axios.post(baseurl+`User/${controllerName}`, user)
+        
+}
+
