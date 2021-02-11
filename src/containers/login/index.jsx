@@ -91,6 +91,7 @@ class Login extends Component {
 
                         }}>
                             Login</Button>
+                            <a href="/register">Register</a>
                     </Form>
                     <br />
                     <div>

@@ -7,9 +7,9 @@ import { Provider } from 'react-redux';
 //Router
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <Router />
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </Provider>,
   document.getElementById('root')
 );

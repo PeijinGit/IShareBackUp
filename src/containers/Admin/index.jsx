@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux'
+import { createDeleteUserInfoAction } from "../../redux/action_creators/login_action";
 import './admin.scss'
 //import axios from 'axios'
 import 'antd/dist/antd.css'
@@ -14,8 +15,11 @@ class Admin extends Component {
 
     clearLocal = () => {
         alert("clear")
-        localStorage.setItem('user','')
-        localStorage.setItem('isLogin',false)
+        this.props.deleteUserInfo()
+    }
+
+    acquireEvents = () => {
+
     }
 
     render() {
@@ -23,12 +27,13 @@ class Admin extends Component {
         alert("Admin: "+isLogin)
     if(isLogin === false) {
         alert("No login info");
-        return <Redirect to="/" />
+        return <Redirect to="/login" />
     }
         return (
             <div>
                 admin:{this.props.userInfo.user.id}
                 <button onClick={this.clearLocal}>clear</button>
+                <button onClick={this.acquireEvents}></button>
             </div>
 
         )
@@ -37,5 +42,7 @@ class Admin extends Component {
 
 export default connect(
     state => ({ userInfo: state.userInfo }),
-    {}
+    {
+        deleteUserInfo: createDeleteUserInfoAction
+    }
 )(Admin)
