@@ -41,7 +41,6 @@ export default class index extends Component {
   render() {
     return (
       <div className="main">
-        {/* <button onClick={this.testAxios}>Test</button> */}
         <Form {...layout} name="nest-messages" onFinish={this.onFinish} >
           <Form.Item
             name={['user', 'Username']}
@@ -60,7 +59,7 @@ export default class index extends Component {
             <Input />
           </Form.Item>
           <Form.Item
-            name={['user', 'Password']}
+            name="password"
             label="Password"
             rules={[
               {
@@ -68,22 +67,32 @@ export default class index extends Component {
                 message: 'Enter password'
               },
             ]}
+            hasFeedback
           >
-            <Input />
+            <Input.Password />
           </Form.Item>
 
           <Form.Item
-            name={['user', 'passwordAgain']}
+            name='passwordAgain'
             label="passwordAgain"
-            dependencies={['password']}
+            dependencies={['Password']}
+            hasFeedback
             rules={[
               {
                 required: true,
                 message: 'Confirm password'
               },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject('The two passwords that you entered do not match!');
+                },
+              }),
             ]}
           >
-            <Input />
+            <Input.Password />
           </Form.Item>
           <Form.Item name={['user', 'introduction']} label="Introduction">
             <Input.TextArea />
