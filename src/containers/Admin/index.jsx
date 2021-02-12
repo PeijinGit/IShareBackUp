@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux'
 import { createDeleteUserInfoAction } from "../../redux/action_creators/login_action";
 import './admin.scss'
-//import axios from 'axios'
 import 'antd/dist/antd.css'
 
 

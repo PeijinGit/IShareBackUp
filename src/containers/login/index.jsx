@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import axios from 'axios'
-//import { validLogin } from "../../api";
 import { createSaveUserInfoAction } from "../../redux/action_creators/login_action";
 import 'antd/dist/antd.css'
 import { Form, Input, Button } from 'antd'
