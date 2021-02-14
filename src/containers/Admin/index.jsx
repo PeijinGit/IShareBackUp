@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux'
 import { createDeleteUserInfoAction } from "../../redux/action_creators/login_action";
+import {baseurl} from "../../config";
+import myAxios from "../../api/myAxios";
 import './admin.scss'
 import 'antd/dist/antd.css'
 
@@ -9,7 +11,7 @@ import 'antd/dist/antd.css'
 class Admin extends Component {
 
     componentDidMount() {
-        console.log(this.props)
+        //console.log(this.props)
     }
 
     clearLocal = () => {
@@ -18,7 +20,23 @@ class Admin extends Component {
     }
 
     acquireEvents = () => {
-
+        myAxios.get(baseurl+'Events/GetAllEvents',{
+            params: {
+              id: 7
+            },
+          })
+        .then((res) => {
+            console.log(res.data);
+            if (res.status === 215) {
+                alert("Please login first")
+            } else if (res.status === 214) {
+                alert("Login Expire")
+                this.props.deleteUserInfo()
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     render() {
@@ -32,7 +50,7 @@ class Admin extends Component {
             <div>
                 admin:{this.props.userInfo.user.id}
                 <button onClick={this.clearLocal}>clear</button>
-                <button onClick={this.acquireEvents}></button>
+                <button onClick={this.acquireEvents}>sendTest</button>
             </div>
 
         )

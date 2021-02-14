@@ -1,0 +1,18 @@
+import axios from 'axios'
+import store from "../redux/store";
+//import { METHODS } from 'http'
+//import qs from 'querystring'
+
+const instance = axios.create({
+    timeout: 20000,
+})
+
+//request interceptors
+instance.interceptors.request.use(function (config) {
+    const {token} = store.getState().userInfo.user
+    if(token) config.headers.Authorization = token
+    const {method,data} = config
+    return config;
+});
+
+export default instance

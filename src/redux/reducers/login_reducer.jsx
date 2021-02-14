@@ -7,14 +7,12 @@ try {
     user = '';
 }
 
-//let user = ''
 let initState = {
     user: user || '',
     isLogin: user ? true : false
 }
 
 export default function loginAc(preState = initState, action) {
-    //console.log("parse: "+JSON.parse(localStorage.getItem('user')).id)
     const { type, data } = action
     let newState
     switch (type) {
