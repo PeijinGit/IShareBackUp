@@ -1,5 +1,7 @@
 import axios from 'axios'
 import store from "../redux/store";
+import { message } from "antd";
+import { createDeleteUserInfoAction } from "../redux/action_creators/login_action";
 //import { METHODS } from 'http'
 //import qs from 'querystring'
 
@@ -14,5 +16,20 @@ instance.interceptors.request.use(function (config) {
     const {method,data} = config
     return config;
 });
+
+//response interceptors
+instance.interceptors.response.use(
+    (response)=>{
+        return response.data;
+    },
+    (error)=>{
+        if(error.response.status === 401){
+            message.error(error.message,1)
+            store.dispatch(createDeleteUserInfoAction())
+        }
+        return new Promise(()=>{})
+    }
+);
+
 
 export default instance

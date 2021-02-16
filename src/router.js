@@ -11,7 +11,7 @@ export default function IRouter() {
         
         <Switch>
             <Route exact path="/login" component={Login} />
-            <Route exact path="/admin" component={Admin} />
+            <Route path="/admin" component={Admin} />
             <Route exact path="/register" component={Register} />
             <Redirect to='/admin' />
         </Switch>
