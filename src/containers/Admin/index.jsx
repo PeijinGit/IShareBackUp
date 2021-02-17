@@ -5,6 +5,7 @@ import { createDeleteUserInfoAction } from "../../redux/action_creators/login_ac
 import { baseurl } from "../../config";
 import { Layout } from 'antd';
 import myAxios from "../../api/myAxios";
+import axios from "axios";
 import Category from "./category";
 import Header from "../Header";
 import Home from "./home";
@@ -31,19 +32,10 @@ class Admin extends Component {
     }
 
     acquireEvents = () => {
-        myAxios.get(baseurl + 'Events/GetAllEvents', {
-            params: {
-                id: 7
-            },
-        })
+        axios.get('http://api.openweathermap.org/data/2.5/weather?q=New York&appid=87c807a7e5cf7c44eced223eb4dde619')
             .then((res) => {
                 console.log(res.data);
-                if (res.status === 215) {
-                    alert("Please login first")
-                } else if (res.status === 214) {
-                    alert("Login Expire")
-                    this.props.deleteUserInfo()
-                }
+                
             })
             .catch(function (error) {
                 console.log(error);
@@ -51,12 +43,12 @@ class Admin extends Component {
     }
 
     render() {
-        // const { isLogin } = this.props.userInfo
-        // alert("Admin: " + isLogin)
-        // if (isLogin === false) {
-        //     alert("No login info");
-        //     return <Redirect to="/login" />
-        // }
+        const { isLogin } = this.props.userInfo
+        alert("Admin: " + isLogin)
+        if (isLogin === false) {
+            alert("No login info");
+            return <Redirect to="/login" />
+        }
         return (
             // <div>
             //     admin:{this.props.userInfo.user.id}
@@ -82,6 +74,7 @@ class Admin extends Component {
                     </Content>
                     <Footer className="footer">Footer</Footer>
                 </Layout>
+                {/* <button onClick={this.acquireEvents}>sendTest</button> */}
             </Layout>
 
         )

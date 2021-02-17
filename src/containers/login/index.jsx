@@ -21,7 +21,7 @@ class Login extends Component {
     }
 
     validLogin = (name, pwd, history, controllerName) => {
-        axios.post(baseurl+`User/${controllerName}`, {
+        axios.post(baseurl + `User/${controllerName}`, {
             Username: name,
             Password: pwd
         })
@@ -31,7 +31,7 @@ class Login extends Component {
                 } else if (res.status === 200) {
                     alert("success")
                     console.log(res.data);
-                    
+
                     this.props.saveUserInfo({ user: res.data })
                     history.replace({
                         pathname: 'admin'
@@ -56,61 +56,64 @@ class Login extends Component {
     };
 
     render() {
-        if(this.props.isLogin) {
-            return<Redirect to="admin"/>
+        if (this.props.isLogin) {
+            return <Redirect to="admin" />
         }
 
         return (
-            <div className="loginform">
-                <div className="loginforminside">
-                    <h1>IShare</h1>
-                    <Form className="">
-                        <Form.Item>
-                            <Input
-                                placeholder={"Enter your user name"}
-                                type="text"
-                                onChange={(event) => {
-                                    this.setState({
-                                        username: event.target.value
-                                    })
-                                }} />
-                        </Form.Item>
-                        <Form.Item>
-                            <Input
-                                placeholder={"Enter your password"}
-                                type="password"
-                                onChange={(event) => {
-                                    this.setState({
-                                        pwd: event.target.value
-                                    })
-                                }} />
-                        </Form.Item>
-                        <Button type={"primary"} onClick={() => {
-                            this.validLogin(this.state.username, this.state.pwd, this.props.history, 'ValidateLogin')
+            <div className="entry">
+                {/* <img src="https://images.squarespace-cdn.com/content/v1/5ed6bc56914e3f676f7a8426/1592092333213-JOZ1O79NMAKSRUTPJM66/ke17ZwdGBToddI8pDm48kLIgtPySYY_xO2fZKaV4Az0UqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dvczmhjPcXeZMtv_SqJObyBnXfo-USe_5Tl-j4vPa1xPm4bjm9DAHF2kOsIZRJKXnA/White%2BChip.jpg?format=2500w" alt=""/> */}
+                <div className="loginform">
+                    <div className="loginforminside">
+                        <h1>IShare</h1>
+                        <Form className="">
+                            <Form.Item>
+                                <Input
+                                    placeholder={"Enter your user name"}
+                                    type="text"
+                                    onChange={(event) => {
+                                        this.setState({
+                                            username: event.target.value
+                                        })
+                                    }} />
+                            </Form.Item>
+                            <Form.Item>
+                                <Input
+                                    placeholder={"Enter your password"}
+                                    type="password"
+                                    onChange={(event) => {
+                                        this.setState({
+                                            pwd: event.target.value
+                                        })
+                                    }} />
+                            </Form.Item>
+                            <Button type={"primary"} onClick={() => {
+                                this.validLogin(this.state.username, this.state.pwd, this.props.history, 'ValidateLogin')
 
-                        }}>
-                            Login</Button>
+                            }}>
+                                Login</Button>
                             <a href="/register">Register</a>
-                    </Form>
-                    <br />
-                    <div>
-                        <GoogleLogin
-                            clientId="102184357281-t48ucmknrp1bej38l2mi8di15qd7e0c3.apps.googleusercontent.com"
-                            isSignedIn={false}
-                            onSuccess={this.responseGoogle}
-                            onFailure={this.responseGoogle} >
+                        </Form>
+                        <br />
+                        <div>
+                            <GoogleLogin
+                                clientId="102184357281-t48ucmknrp1bej38l2mi8di15qd7e0c3.apps.googleusercontent.com"
+                                isSignedIn={false}
+                                onSuccess={this.responseGoogle}
+                                onFailure={this.responseGoogle} >
 
-                        </GoogleLogin>
-                    </div>
-                    <div>
-                        <FacebookLogin
-                            appId="429868371665377"
-                            autoLoad={false}
-                            fields="name,email,picture"
-                            callback={this.responseFacebook}
-                            cssClass="my-facebook-button-class"
-                            icon="fa-facebook"
-                        />
+                            </GoogleLogin>
+                        </div>
+                        <div>
+                            <FacebookLogin
+                                appId="429868371665377"
+                                autoLoad={false}
+                                fields="name,email,picture"
+                                callback={this.responseFacebook}
+                                cssClass="my-facebook-button-class"
+                                icon="fa-facebook"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,7 +122,7 @@ class Login extends Component {
 }
 
 export default connect(
-    state => ({isLogin:state.userInfo.isLogin}),
+    state => ({ isLogin: state.userInfo.isLogin }),
     {
         saveUserInfo: createSaveUserInfoAction
 
