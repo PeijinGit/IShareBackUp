@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import { connect } from 'react-redux'
 import { createDeleteUserInfoAction } from "../../redux/action_creators/login_action";
-import { baseurl } from "../../config";
+// import { baseurl } from "../../config";
 import { Layout } from 'antd';
-import myAxios from "../../api/myAxios";
+// import myAxios from "../../api/myAxios";
 import axios from "axios";
 import Category from "./category";
 import Header from "../Header";
@@ -32,7 +32,7 @@ class Admin extends Component {
     }
 
     acquireEvents = () => {
-        axios.get('http://api.openweathermap.org/data/2.5/weather?q=New York&appid=87c807a7e5cf7c44eced223eb4dde619')
+        axios.get('')
             .then((res) => {
                 console.log(res.data);
                 

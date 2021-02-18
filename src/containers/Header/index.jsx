@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { createDeleteUserInfoAction } from "../../redux/action_creators/login_action";
 import { Button, Modal } from "antd";
 import dayjs from 'dayjs'
@@ -18,9 +19,14 @@ class Header extends Component {
     }
 
     componentDidMount(){
-        setInterval(()=>{
+        this.timeId = setInterval(()=>{
             this.setState({date:dayjs().format('YYYY MM DD HH:mm:ss')})
         })
+        console.log(this.props.location)
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.timeId);
     }
 
     logOut = () => {
@@ -63,6 +69,8 @@ class Header extends Component {
     }
 }
 
+let withHeader = withRouter(Header)
+
 export default connect(
     state => ({
         isLogin: state.userInfo.isLogin,
@@ -72,4 +80,4 @@ export default connect(
         deleteUserInfo: createDeleteUserInfoAction
 
     }
-)(Header)
+)(withHeader)
