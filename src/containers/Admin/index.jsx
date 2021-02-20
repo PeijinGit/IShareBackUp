@@ -6,6 +6,7 @@ import { createDeleteUserInfoAction } from "../../redux/action_creators/login_ac
 import { Layout } from 'antd';
 // import myAxios from "../../api/myAxios";
 import axios from "axios";
+import Left_nav from "./left_nav";
 import Category from "./category";
 import Header from "../Header";
 import Home from "./home";
@@ -56,7 +57,9 @@ class Admin extends Component {
             //     <button onClick={this.acquireEvents}>sendTest</button>
             // </div>
             <Layout className="admin">
-                <Sider className="sider">Sider</Sider>
+                <Sider className="sider">
+                    <Left_nav/>
+                </Sider>
                 <Layout>
                     <Header className="herader">Header</Header>
                     <Content className="content">

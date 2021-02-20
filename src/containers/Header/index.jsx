@@ -9,24 +9,44 @@ import {
 } from '@ant-design/icons';
 import './header.scss'
 import { Content } from 'antd/lib/layout/layout';
+import menuList from '../../config/meun_config'
 
 const {confirm} = Modal;
+let myMenu = menuList
 
 class Header extends Component {
 
     state = {
-        date:dayjs().format('YYYY MM DD HH:mm:ss')
+        date:dayjs().format('YYYY MM DD HH:mm:ss'),
+        title: ''
     }
 
     componentDidMount(){
         this.timeId = setInterval(()=>{
             this.setState({date:dayjs().format('YYYY MM DD HH:mm:ss')})
         })
-        console.log(this.props.location)
+        //console.log(this.props.location)
+        this.getTitle()
     }
 
     componentWillUnmount(){
         clearInterval(this.timeId);
+    }
+
+    getTitle=()=>{
+        let pathKey = this.props.location.pathname.split('/').reverse()[0]
+        let title = ''
+        myMenu.forEach((item)=>{
+            if(item.children instanceof Array){
+                let tmp = item.children.find((citem)=>{
+                    return citem.key === pathKey
+                })
+                if(tmp) title = tmp.title
+            }else{
+                if(pathKey === item.key) title = item.title
+            }
+        })
+        return this.setState({title})
     }
 
     logOut = () => {
@@ -56,7 +76,7 @@ class Header extends Component {
                 </div>
                 <div className="header-bottom">
                     <div className="header-bottom-left">
-                        XXXChart
+                        {this.props.title || this.state.title}
                     </div>
                     <div className="header-bottom-right">
                         {this.state.date}
@@ -74,7 +94,8 @@ let withHeader = withRouter(Header)
 export default connect(
     state => ({
         isLogin: state.userInfo.isLogin,
-        userInfo: state.userInfo
+        userInfo: state.userInfo,
+        title:state.title
     }),
     {
         deleteUserInfo: createDeleteUserInfoAction
