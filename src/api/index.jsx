@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {baseurl} from "../config";
+import myAxios from './myAxios'
 
 export const testApi = (controllerName) => {
     console.log("enter tests");
@@ -11,3 +12,12 @@ export const RegisterUser = (user, controllerName) => {
     return axios.post(baseurl+`User/${controllerName}`, user)
 }
 
+export const getEventsByUser = (id, controllerName) => {
+    console.log("request success: "+ id);
+    return myAxios.get(baseurl+`Events/${controllerName}`, 
+    {
+        params:{
+            id:id
+        } 
+    })
+}

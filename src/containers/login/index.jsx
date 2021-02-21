@@ -62,7 +62,6 @@ class Login extends Component {
 
         return (
             <div className="entry">
-                {/* <img src="https://images.squarespace-cdn.com/content/v1/5ed6bc56914e3f676f7a8426/1592092333213-JOZ1O79NMAKSRUTPJM66/ke17ZwdGBToddI8pDm48kLIgtPySYY_xO2fZKaV4Az0UqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dvczmhjPcXeZMtv_SqJObyBnXfo-USe_5Tl-j4vPa1xPm4bjm9DAHF2kOsIZRJKXnA/White%2BChip.jpg?format=2500w" alt=""/> */}
                 <div className="loginform">
                     <div className="loginforminside">
                         <h1>IShare</h1>
