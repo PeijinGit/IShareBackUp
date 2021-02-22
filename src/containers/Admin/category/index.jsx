@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Card, message, Table } from "antd";
+import { Card, message, Table, Button } from "antd";
 import { getEventsByUser } from "../../../api";
-import { Button } from 'bootstrap';
 
 
 export default class Category extends Component {
@@ -20,74 +19,35 @@ export default class Category extends Component {
             } else {
                 message.success("Success", 1)
                 console.log(res);
-                //console.log(res.data);
-                return res;
+                this.setState({ categoryList: res })
+                //return res;
             }
         })
             .catch(function (error) {
                 console.log(error);
             });
-        if (response.status != 401) {
-            this.setState({ categoryList: response })
-        }
+        
     }
 
     render() {
 
-        //const dataSource = this.state.categoryList
-        // const dataSource = [
-        //     { id: 2, eventName: "BoardGame" },
-        //     { id: 5, eventName: "Model Ma" },
-        //     { id: 6, eventName: "Movie" }
-        // ];
-        // const columns = [
-        //     {
-        //         title: 'Event Name',
-        //         dataIndex: 'eventName',
-        //         key: 'eventName'
-        //     },
-        //     {
-        //         title: 'Control',
-        //         key: 'ctrl',
-        //         render: (a) => { return <Button type="link"></Button> },
-        //         width: '25%',
-        //         align: 'center'
-        //     },
-        // ]
-
-        const dataSource = [
+        const dataSource = this.state.categoryList
+    
+        const columns = [
             {
-              key: '1',
-              name: '胡彦斌',
-              age: 32,
-              address: '西湖区湖底公园1号',
+                title: 'Event Name',
+                dataIndex: 'eventName',
+                key: 'eventName'
             },
             {
-              key: '2',
-              name: '胡彦祖',
-              age: 42,
-              address: '西湖区湖底公园1号',
+                title: 'Control',
+                dataIndex: 'id',
+                key: 'Control',
+                render: (a) => <Button type="link">Delete</Button>,
+                width: '25%',
+                align: 'center'
             },
-          ];
-          
-          const columns = [
-            {
-              title: '姓名',
-              dataIndex: 'name',
-              key: 'name',
-            },
-            {
-              title: '年龄',
-              dataIndex: 'age',
-              key: 'age',
-            },
-            {
-              title: '住址',
-              dataIndex: 'address',
-              key: 'address',
-            },
-          ];
-
+        ]
 
         return (
 
