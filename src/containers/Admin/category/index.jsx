@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, message, Table, Button,Modal } from "antd";
+import { Card, message, Table, Button, Modal, Form, Input } from "antd";
 import { getEventsByUser } from "../../../api";
 
 
@@ -14,12 +14,19 @@ export default class Category extends Component {
         this.getCateGoryList()
     }
 
-    showUpdate=()=> {
-        this.setState({visible: true})
+    showUpdate = () => {
+        this.setState({
+            operType: 'UPDATE',
+            visible: true
+        })
+
     }
 
-    showAdd() {
-
+    showAdd = () => {
+        this.setState({
+            operType: 'ADD',
+            visible: true
+        })
     }
 
     getCateGoryList = () => {
@@ -39,6 +46,23 @@ export default class Category extends Component {
 
     }
 
+    onFinish = (values) => {
+        // RegisterUser(values.user, "UserRegister")
+        //   .then((res) => {
+        //     if (res.status === 208) {
+        //       alert(res.data)
+        //     } else if (res.status === 200) {
+        //       alert(res.data)
+        //       this.props.history.replace({
+        //         pathname: 'login'
+        //       })
+        //     }
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
+    };
+
     render() {
 
         const dataSource = this.state.categoryList
@@ -54,30 +78,30 @@ export default class Category extends Component {
                 title: 'Control',
                 dataIndex: 'id',
                 key: 'Control',
-                render: (a) => <Button type="link" onClick={ this.showUpdate}>Update</Button>,
+                render: (a) => <Button type="link" onClick={this.showUpdate}>Update</Button>,
                 width: '25%',
                 align: 'center'
             },
         ]
 
-
-
-        const showModal = () => {
-            this.setState({visible: true})
-        };
-
         const handleOk = () => {
-            this.setState({visible: false})
+            let {operType} = this.state
+            switch(operType) {
+                case'ADD':
+                    break;
+                case'UPDATE':
+                    break;
+                default:
+            }
+            this.setState({ visible: false })
         };
 
         const handleCancel = () => {
-            this.setState({visible: false})
+            this.setState({ visible: false })
+            //this.props.form.resetFields()
         };
 
         return (
-
-
-
             <div>
 
                 <Card title="Default size card" extra={<Button onClick={this.showAdd}>More</Button>} >
@@ -90,15 +114,30 @@ export default class Category extends Component {
                     </Table>
                 </Card>
                 <Modal
-                    title={operType === 'add' ? 'ADD' : 'UPDATE'}
+                    title={operType === 'ADD' ? 'ADD' : 'UPDATE'}
                     visible={visible}
                     onOk={handleOk}
                     onCancel={handleCancel}
 
                 >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <Form name="nest-messages" onFinish={this.onFinish} >
+                        <Form.Item
+                            name={['user', 'Username']}
+                            label="Name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Event Name Needed'
+                                },
+                                {
+                                    pattern: /^[A-Za-z0-9]{3,7}$/,
+                                    message: ' 3-7 letter and num'
+                                }
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+                    </Form>
                 </Modal>
             </div>
         )

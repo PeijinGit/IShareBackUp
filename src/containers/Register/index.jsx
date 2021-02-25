@@ -21,7 +21,6 @@ export default class index extends Component {
   }
 
   onFinish = (values) => {
-    console.log(values.user)
     RegisterUser(values.user, "UserRegister")
       .then((res) => {
         if (res.status === 208) {
