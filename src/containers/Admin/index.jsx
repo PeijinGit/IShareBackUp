@@ -45,7 +45,7 @@ class Admin extends Component {
 
     render() {
         const { isLogin } = this.props.userInfo
-        alert("Admin: " + isLogin)
+        //alert("Admin: " + isLogin)
         if (isLogin === false) {
             alert("No login info");
             return <Redirect to="/login" />

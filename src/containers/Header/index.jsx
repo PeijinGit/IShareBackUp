@@ -8,7 +8,6 @@ import {
     FullscreenOutlined
 } from '@ant-design/icons';
 import './header.scss'
-import { Content } from 'antd/lib/layout/layout';
 import menuList from '../../config/meun_config'
 
 const {confirm} = Modal;

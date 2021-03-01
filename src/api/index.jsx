@@ -8,7 +8,6 @@ export const testApi = (controllerName) => {
 }
 
 export const RegisterUser = (user, controllerName) => {
-    console.log("register success"+ user);
     return axios.post(baseurl+`User/${controllerName}`, user)
 }
 
@@ -21,3 +20,12 @@ export const getEventsByUser = (id, controllerName) => {
         } 
     })
 }
+
+export const addEvent = (values) => {
+    return myAxios.post(baseurl+`Events/AddEvent`, values)
+}
+
+export const updateEvent = (values) => {
+    return myAxios.post(baseurl+`Events/UpdateEvent`, values)
+}
+

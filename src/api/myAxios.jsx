@@ -2,7 +2,6 @@ import axios from 'axios'
 import store from "../redux/store";
 import { message } from "antd";
 import { createDeleteUserInfoAction } from "../redux/action_creators/login_action";
-//import { METHODS } from 'http'
 //import qs from 'querystring'
 
 const instance = axios.create({
@@ -23,6 +22,7 @@ instance.interceptors.response.use(
         return response.data;
     },
     (error)=>{
+        console.log("test enter1")
         if(error.response.status === 401){
             message.error(error.message,1)
             store.dispatch(createDeleteUserInfoAction())
