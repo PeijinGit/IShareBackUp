@@ -22,10 +22,12 @@ export const getEventsByUser = (id, controllerName) => {
 }
 
 export const addEvent = (values) => {
+    
     return myAxios.post(baseurl+`Events/AddEvent`, values)
 }
 
 export const updateEvent = (values) => {
+    console.log("API",values)
     return myAxios.post(baseurl+`Events/UpdateEvent`, values)
 }
 

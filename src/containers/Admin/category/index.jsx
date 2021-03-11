@@ -49,7 +49,7 @@ class Category extends Component {
             modalCurentId: id,
             visible: true,
         }, () => {
-            this.formRef.current.setFieldsValue("eventName", this.state.modalCurentValue)
+            //this.formRef.current.setFieldsValue("eventName", this.state.modalCurentValue)
         })
     }
 
@@ -140,7 +140,8 @@ class Category extends Component {
             let { operType } = this.state
 
             this.formRef.current.validateFields().then(values => {
-                let { EventName } = values.event
+                console.log(values)
+                let  EventName  = values.eventName
                 switch (operType) {
                     case 'ADD':
                         let { userId } = this.state
@@ -172,7 +173,6 @@ class Category extends Component {
 
         return (
             <div>
-                <div>{ this.state.modalCurentValue }</div>
                 <Card title="Default size card" extra={<Button onClick={this.showAdd}>ADD+</Button>} >
                     <Table
                         dataSource={dataSource}
