@@ -21,6 +21,10 @@ export const getEventsByUser = (id, controllerName) => {
     })
 }
 
+export const getAllActivities = () => {
+    return myAxios.get(baseurl+`Events/GetAllAc`)
+}
+
 export const addEvent = (values) => {
     
     return myAxios.post(baseurl+`Events/AddEvent`, values)
