@@ -2,32 +2,40 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Card, message, Table, Button, Modal, Form, Input ,Select} from "antd";
-import { getAllActivities } from "../../../api";
+import { getACbyPage } from "../../../api";
 const {Option} = Select;
 
 export default class Product extends Component {
     state = {
-        categoryList: [],//ac list
+        activityList: [],//ac list
+        current:1,
         isLoading: true,
+        total:'',
+        pageSize:5,
+        
     }
 
     formRef = React.createRef()
 
     componentDidMount() {
-        this.getActiviitiesList()
+        this.getActivitiesList(1)
     }
 
 
-    getActiviitiesList = () => {
-        getAllActivities().then((res) => {
-            
+    getActivitiesList = (e) => {
+        this.setState({ isLoading: true })
+        getACbyPage(e,5).then((res) => {
             if (res.status === -1) {
-                message.error(res.data)
+                message.error(res.msg)
             } else {
-                message.success("Get Event Success", 1)
-                this.setState({ isLoading: false })
-                this.setState({ categoryList: res.resultData.reverse() })
-                console.log(this.state.categoryList)
+                let acInfo = res.resultData[0]
+                message.success("Get AC Success",)
+                 this.setState({ isLoading: false })
+                 this.setState({ 
+                     activityList: acInfo.activities.reverse(),
+                     current: acInfo.pageNum,
+                     total: acInfo.totalPages
+                    })
             }
         })
             .catch(function (error) {
@@ -38,46 +46,50 @@ export default class Product extends Component {
     }
 
     render() {
-        const dataSource = this.state.categoryList
+        const dataSource = this.state.activityList
 
         const columns = [
             {
                 title: 'AC Name',
                 dataIndex: 'acName',
-                key: 'acName'
+                key: 'acName',
+                width: '10%',
+                align: 'center',
+            },
+            {
+                title: 'Fee',
+                dataIndex: 'esFee',
+                key: 'esFee',
+                width: '3%',
+                align: 'center',
+            },
+            {
+                title: 'Descript',
+                dataIndex: 'descript',
+                key: 'descript',
+                width: '',
+                align: 'center',
             },
             {
                 title: 'Start Time',
                 dataIndex: 'startDate',
                 key: 'startDate',
+                width: '10%',
+                align: 'center',
                 render:(startDate)=>{
                    var sdate = startDate.split("T")
-                   return sdate;
+                   sdate.join(" ")
+                   return sdate[0];
                 }
             },
             {
-                title: 'End Time',
-                dataIndex: 'endDate',
-                key: 'endDate'
-            },
-            {
-                title: 'Status',
-                dataIndex: 'id',
-                key: 'Control',
-                render: (text, record, index) => {
-                    return <Button type="link" /*onClick={() => this.showUpdate(record)}*/>Update</Button>
-                },
-                width: '25%',
-                align: 'center'
-            },
-            {
                 title: 'Control',
-                dataIndex: 'id',
+                //dataIndex: 'id',
                 key: 'Control',
                 render: (text, record, index) => {
                     return <Button type="link" /*onClick={() => this.showUpdate(record)}*/>Update</Button>
                 },
-                width: '25%',
+                width: '10%',
                 align: 'center'
             },
         ]
@@ -105,6 +117,12 @@ export default class Product extends Component {
                         rowKey="id"
                         pagination={{ pageSize: 5, showQuickJumper: true }}
                         loading={this.state.isLoading}
+                        pagination={{
+                            total:this.state.total,
+                            pageSize:this.state.pageSize,
+                            current:this.state.current,
+                            onChange:this.getActivitiesList
+                        }}
                     >
                     </Table>
                 </Card>
