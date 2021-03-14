@@ -25,6 +25,11 @@ export const getAllActivities = () => {
     return myAxios.get(baseurl+`Events/GetAllAc`)
 }
 
+export const getACbyPage = (startPage,pageSize) => {
+    return myAxios.get(baseurl+`Events/ListActivitiesByPage`,{params:{startPage,pageSize}})
+}
+
+
 export const addEvent = (values) => {
     
     return myAxios.post(baseurl+`Events/AddEvent`, values)
