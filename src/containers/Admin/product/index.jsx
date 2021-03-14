@@ -28,7 +28,9 @@ export default class Product extends Component {
             if (res.status === -1) {
                 message.error(res.msg)
             } else {
+
                 let acInfo = res.resultData[0]
+                console.log(acInfo);
                 message.success("Get AC Success",)
                  this.setState({ isLoading: false })
                  this.setState({ 
@@ -60,7 +62,7 @@ export default class Product extends Component {
                 title: 'Fee',
                 dataIndex: 'esFee',
                 key: 'esFee',
-                width: '3%',
+                width: '5%',
                 align: 'center',
             },
             {
@@ -80,6 +82,20 @@ export default class Product extends Component {
                    var sdate = startDate.split("T")
                    sdate.join(" ")
                    return sdate[0];
+                }
+            },
+            {
+                title: 'Status',
+                dataIndex: 'acStatus',
+                key: 'acStatus',
+                width: '15%',
+                align: 'center',
+                render:(acStatus)=>{
+                    return (
+                    <div>
+                        <Button type="primary" /*onClick={() => this.showUpdate(record)}*/>Switch</Button>
+                        <span>{acStatus}</span>
+                    </div>)
                 }
             },
             {
