@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {baseurl} from "../config";
 import myAxios from './myAxios'
+import qs from 'querystring'
 
 export const testApi = (controllerName) => {
     console.log("enter tests");
@@ -33,6 +34,21 @@ export const getACbyPage = (startPage,pageSize) => {
 export const addEvent = (values) => {
     
     return myAxios.post(baseurl+`Events/AddEvent`, values)
+}
+
+export const updateAcStatus = (id,acStatus) => {
+    console.log("id,acStatus",id,acStatus);
+    return myAxios.post(baseurl + `Events/UpdateAcStatus`, qs.stringify({id,acStatus})).then((res) => {
+        console.log(res);
+        if (res.status === -1) {
+        } else {
+            
+        }
+        return "test test";
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 export const updateEvent = (values) => {

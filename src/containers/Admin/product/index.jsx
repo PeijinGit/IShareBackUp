@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Card, message, Table, Button, Modal, Form, Input ,Select} from "antd";
-import { getACbyPage } from "../../../api";
+import { getACbyPage,updateAcStatus } from "../../../api";
 const {Option} = Select;
 
 export default class Product extends Component {
@@ -28,7 +28,6 @@ export default class Product extends Component {
             if (res.status === -1) {
                 message.error(res.msg)
             } else {
-
                 let acInfo = res.resultData[0]
                 console.log(acInfo);
                 message.success("Get AC Success",)
@@ -45,6 +44,11 @@ export default class Product extends Component {
                 console.log(error);
             });
 
+    }
+
+    updateActivityStatus = async ({id,acStatus}) => {
+        let result = await updateAcStatus(id,acStatus);
+        console.log(result);
     }
 
     render() {
@@ -86,15 +90,17 @@ export default class Product extends Component {
             },
             {
                 title: 'Status',
-                dataIndex: 'acStatus',
+                //dataIndex: 'acStatus',
                 key: 'acStatus',
                 width: '15%',
                 align: 'center',
-                render:(acStatus)=>{
+                render:(item)=>{
                     return (
                     <div>
-                        <Button type="primary" /*onClick={() => this.showUpdate(record)}*/>Switch</Button>
-                        <span>{acStatus}</span>
+                        <Button type={item.acStatus === 0 ? 'primary':'danger'} 
+                        onClick={() => this.updateActivityStatus(item)}
+                        >{item.acStatus === 1 ? "On": "Off"}</Button>
+                        <span>{item.acStatus === 1 ? "Finish": "OnGoing"}</span>
                     </div>)
                 }
             },

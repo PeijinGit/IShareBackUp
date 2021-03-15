@@ -22,7 +22,6 @@ instance.interceptors.response.use(
         return response.data;
     },
     (error)=>{
-        console.log("test enter1")
         if(error.response.status === 401){
             message.error(error.message,1)
             store.dispatch(createDeleteUserInfoAction())
