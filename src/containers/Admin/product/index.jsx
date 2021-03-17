@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Card, message, Table, Button, Modal, Form, Input ,Select} from "antd";
-import { getACbyPage,updateAcStatus } from "../../../api";
-const {Option} = Select;
+import { Card, message, Table, Button, Modal, Form, Input, Select } from "antd";
+import { getACbyPage, updateAcStatus } from "../../../api";
+const { Option } = Select;
 
 export default class Product extends Component {
     state = {
         activityList: [],//ac list
-        current:1,
+        current: 1,
         isLoading: true,
-        total:'',
-        pageSize:5,
-        
+        total: '',
+        pageSize: 5,
+
     }
 
     formRef = React.createRef()
@@ -24,19 +24,19 @@ export default class Product extends Component {
 
     getActivitiesList = (e) => {
         this.setState({ isLoading: true })
-        getACbyPage(e,5).then((res) => {
+        getACbyPage(e, 5).then((res) => {
             if (res.status === -1) {
                 message.error(res.msg)
             } else {
                 let acInfo = res.resultData[0]
                 console.log(acInfo);
                 message.success("Get AC Success",)
-                 this.setState({ isLoading: false })
-                 this.setState({ 
-                     activityList: acInfo.activities.reverse(),
-                     current: acInfo.pageNum,
-                     total: acInfo.totalPages
-                    })
+                this.setState({ isLoading: false })
+                this.setState({
+                    activityList: acInfo.activities.reverse(),
+                    current: acInfo.pageNum,
+                    total: acInfo.totalPages
+                })
             }
         })
             .catch(function (error) {
@@ -46,9 +46,24 @@ export default class Product extends Component {
 
     }
 
-    updateActivityStatus = async ({id,acStatus}) => {
-        let result = await updateAcStatus(id,acStatus);
-        console.log(result);
+    updateActivityStatus = async ({ id, acStatus }) => {
+        let newStatus = acStatus == 1 ? 0 : 1;
+        console.log("newStatus: ", newStatus)
+        let result = await updateAcStatus(id, newStatus);
+        if (result === 1) {
+            let activityList = [...this.state.activityList]
+            //item present the element in acList(auto add parameter)
+            activityList = activityList.map((item)=>{
+                if(item.id === id){
+                    item.acStatus = newStatus;
+                }
+                return item;
+            })
+            this.setState({activityList})
+            message.success("Update Success");
+        }else{
+            message.error('Update Fail')
+        }
     }
 
     render() {
@@ -82,10 +97,10 @@ export default class Product extends Component {
                 key: 'startDate',
                 width: '10%',
                 align: 'center',
-                render:(startDate)=>{
-                   var sdate = startDate.split("T")
-                   sdate.join(" ")
-                   return sdate[0];
+                render: (startDate) => {
+                    var sdate = startDate.split("T")
+                    sdate.join(" ")
+                    return sdate[0];
                 }
             },
             {
@@ -93,15 +108,15 @@ export default class Product extends Component {
                 //dataIndex: 'acStatus',
                 key: 'acStatus',
                 width: '15%',
-                align: 'center',
-                render:(item)=>{
+                align: 'left',
+                render: (item) => {
                     return (
-                    <div>
-                        <Button type={item.acStatus === 0 ? 'primary':'danger'} 
-                        onClick={() => this.updateActivityStatus(item)}
-                        >{item.acStatus === 1 ? "On": "Off"}</Button>
-                        <span>{item.acStatus === 1 ? "Finish": "OnGoing"}</span>
-                    </div>)
+                        <div>
+                            <Button type={item.acStatus === 0 ? 'primary' : 'danger'}
+                                onClick={() => this.updateActivityStatus(item)}
+                            >{item.acStatus === 1 ? "On" : "Off"}</Button>
+                            <span>{item.acStatus === 1 ? "Finish" : "OnGoing"}</span>
+                        </div>)
                 }
             },
             {
@@ -117,21 +132,21 @@ export default class Product extends Component {
         ]
         return (
             <div>
-                <Card 
-                title={
-                    <div>
+                <Card
+                    title={
+                        <div>
 
-                        <Select defaultValue="name">
-                            <Option value="name">Select by name</Option>
-                            <Option value="desc">Select by desc</Option>
-                        </Select>
-                        <Input style={{margin:'0px 10px', width:'20%'}} placeholder="Enter" allowClear></Input>
-                        <Button type="primary">Search</Button>
-                    </div>
-                }
-                extra={
-                    <Button onClick={console.log("")}>ADD+</Button>
-                } >
+                            <Select defaultValue="name">
+                                <Option value="name">Select by name</Option>
+                                <Option value="desc">Select by desc</Option>
+                            </Select>
+                            <Input style={{ margin: '0px 10px', width: '20%' }} placeholder="Enter" allowClear></Input>
+                            <Button type="primary">Search</Button>
+                        </div>
+                    }
+                    extra={
+                        <Button onClick={console.log("")}>ADD+</Button>
+                    } >
                     <Table
                         dataSource={dataSource}
                         columns={columns}
@@ -140,10 +155,10 @@ export default class Product extends Component {
                         pagination={{ pageSize: 5, showQuickJumper: true }}
                         loading={this.state.isLoading}
                         pagination={{
-                            total:this.state.total,
-                            pageSize:this.state.pageSize,
-                            current:this.state.current,
-                            onChange:this.getActivitiesList
+                            total: this.state.total,
+                            pageSize: this.state.pageSize,
+                            current: this.state.current,
+                            onChange: this.getActivitiesList
                         }}
                     >
                     </Table>

@@ -4,7 +4,6 @@ import myAxios from './myAxios'
 import qs from 'querystring'
 
 export const testApi = (controllerName) => {
-    console.log("enter tests");
  return axios.post(`api.openweathermap.org/data/2.5/weather?q=New York&appid=87c807a7e5cf7c44eced223eb4dde619`)
 }
 
@@ -36,13 +35,14 @@ export const addEvent = (values) => {
     return myAxios.post(baseurl+`Events/AddEvent`, values)
 }
 
-export const updateAcStatus = (id,acStatus) => {
-    console.log("id,acStatus",id,acStatus);
-    return myAxios.post(baseurl + `Events/UpdateAcStatus`, qs.stringify({id,acStatus})).then((res) => {
+export const updateAcStatus = (id,newStatus) => {
+    console.log("id,acStatus",id,newStatus);
+    return myAxios.post(baseurl + `Events/UpdateAcStatus`, qs.stringify({id,newStatus})).then((res) => {
         console.log(res);
         if (res.status === -1) {
+        
         } else {
-            
+            return res.status;
         }
         return "test test";
     })
