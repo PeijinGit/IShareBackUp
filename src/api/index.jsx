@@ -51,8 +51,14 @@ export const updateAcStatus = (id,newStatus) => {
         });
 }
 
+export const getACbySearch = (startPage,pageSize,keyWord,condition) => {
+    return myAxios.get(baseurl+`Events/SearchAC`,{params:{startPage,pageSize,keyWord,condition}})
+}
+
 export const updateEvent = (values) => {
     console.log("API",values)
     return myAxios.post(baseurl+`Events/UpdateEvent`, values)
 }
+
+
 

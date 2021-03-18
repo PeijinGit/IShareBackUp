@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Card, message, Table, Button, Modal, Form, Input, Select } from "antd";
-import { getACbyPage, updateAcStatus } from "../../../api";
+import { getACbyPage, updateAcStatus, getACbySearch } from "../../../api";
 const { Option } = Select;
 
 export default class Product extends Component {
@@ -12,6 +12,8 @@ export default class Product extends Component {
         isLoading: true,
         total: '',
         pageSize: 5,
+        keyWord: '',
+        searchType: 'productName',
 
     }
 
@@ -53,17 +55,42 @@ export default class Product extends Component {
         if (result === 1) {
             let activityList = [...this.state.activityList]
             //item present the element in acList(auto add parameter)
-            activityList = activityList.map((item)=>{
-                if(item.id === id){
+            activityList = activityList.map((item) => {
+                if (item.id === id) {
                     item.acStatus = newStatus;
                 }
                 return item;
             })
-            this.setState({activityList})
+            this.setState({ activityList })
             message.success("Update Success");
-        }else{
+        } else {
             message.error('Update Fail')
         }
+    }
+
+    search = () => {
+        this.setState({ isLoading: true })
+        let { keyWord, searchType } = this.state
+
+        getACbySearch(1, 5, keyWord, searchType).then((res) => {
+            console.log("search: ", res)
+            // if (res.status === -1) {
+            //     message.error(res.msg)
+            // } else {
+            //     let acInfo = res.resultData[0]
+            //     message.success("Get AC Success",)
+            //      this.setState({ isLoading: false })
+            //      this.setState({ 
+            //          activityList: acInfo.activities.reverse(),
+            //          current: acInfo.pageNum,
+            //          total: acInfo.totalPages
+            //         })
+            // }
+        })
+            .catch(function (error) {
+                message.error("Get Event Fail", 1)
+                console.log(error);
+            });
     }
 
     render() {
@@ -135,13 +162,17 @@ export default class Product extends Component {
                 <Card
                     title={
                         <div>
-
-                            <Select defaultValue="name">
-                                <Option value="name">Select by name</Option>
-                                <Option value="desc">Select by desc</Option>
+                            <Select defaultValue="productName" onChange={(value) => { this.setState(this.setState({ searchType: value })) }}>
+                                <Option value="productName">Select by name</Option>
+                                <Option value="productDesc">Select by desc</Option>
                             </Select>
-                            <Input style={{ margin: '0px 10px', width: '20%' }} placeholder="Enter" allowClear></Input>
-                            <Button type="primary">Search</Button>
+                            <Input
+                                style={{ margin: '0px 10px', width: '20%' }}
+                                placeholder="Enter"
+                                allowClear
+                                onChange={(event) => { this.setState({ keyWord: event.target.value }) }}
+                            ></Input>
+                            <Button type="primary" onClick={this.search}>Search</Button>
                         </div>
                     }
                     extra={
