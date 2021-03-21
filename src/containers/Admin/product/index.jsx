@@ -24,27 +24,30 @@ export default class Product extends Component {
     }
 
 
-    getActivitiesList = (e) => {
+    getActivitiesList = async (number = 1) => {
         this.setState({ isLoading: true })
-        getACbyPage(e, 5).then((res) => {
-            if (res.status === -1) {
-                message.error(res.msg)
-            } else {
-                let acInfo = res.resultData[0]
-                console.log(acInfo);
-                message.success("Get AC Success",)
-                this.setState({ isLoading: false })
-                this.setState({
-                    activityList: acInfo.activities.reverse(),
-                    current: acInfo.pageNum,
-                    total: acInfo.totalPages
-                })
-            }
-        })
-            .catch(function (error) {
-                message.error("Get Event Fail", 1)
-                console.log(error);
-            });
+        let result;
+        if (this.isSearch) {
+            const { searchType, keyWord } = this.state;
+            result = await getACbySearch(number, 5, keyWord, searchType)
+        } else {
+            result = await getACbyPage(number, 5)
+        }
+
+        if (result.status === -1) {
+            message.error(result.msg)
+        } else {
+            let acInfo = result.resultData[0]
+            console.log(acInfo);
+            message.success("Get AC Success",)
+            this.setState({ isLoading: false })
+            this.setState({
+                activityList: acInfo.activities.reverse(),
+                current: acInfo.pageNum,
+                total: acInfo.totalNum
+            })
+        }
+
 
     }
 
@@ -68,29 +71,9 @@ export default class Product extends Component {
         }
     }
 
-    search = () => {
-        this.setState({ isLoading: true })
-        let { keyWord, searchType } = this.state
-
-        getACbySearch(1, 5, keyWord, searchType).then((res) => {
-            console.log("search: ", res)
-            // if (res.status === -1) {
-            //     message.error(res.msg)
-            // } else {
-            //     let acInfo = res.resultData[0]
-            //     message.success("Get AC Success",)
-            //      this.setState({ isLoading: false })
-            //      this.setState({ 
-            //          activityList: acInfo.activities.reverse(),
-            //          current: acInfo.pageNum,
-            //          total: acInfo.totalPages
-            //         })
-            // }
-        })
-            .catch(function (error) {
-                message.error("Get Event Fail", 1)
-                console.log(error);
-            });
+    search = async() => {
+        this.isSearch = true
+        this.getActivitiesList()
     }
 
     render() {

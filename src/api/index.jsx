@@ -52,7 +52,7 @@ export const updateAcStatus = (id,newStatus) => {
 }
 
 export const getACbySearch = (startPage,pageSize,keyWord,condition) => {
-    return myAxios.get(baseurl+`Events/SearchAC`,{params:{startPage,pageSize,keyWord,condition}})
+    return myAxios.get(baseurl+`Events/SearchByCondition`,{params:{startPage,pageSize,keyWord,criteria:condition}})
 }
 
 export const updateEvent = (values) => {
