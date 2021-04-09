@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { connect } from "react-redux";
+import {connect} from 'react-redux'
 import { withRouter } from "react-router-dom";
-import { Card, message, Table, Button, Modal, Form, Input, Select } from "antd";
+import { Card, message, Table, Button, Input, Select } from "antd";
 import { getACbyPage, updateAcStatus, getACbySearch } from "../../../api";
+import { createSaveAcAction } from "../../../redux/action_creators/product_action";
 const { Option } = Select;
 
-export default class Product extends Component {
+class Product extends Component {
     state = {
         activityList: [],//ac list
         current: 1,
@@ -42,17 +43,19 @@ export default class Product extends Component {
             message.success("Get AC Success",)
             this.setState({ isLoading: false })
             this.setState({
-                activityList: acInfo.activities.reverse(),
+                activityList: acInfo.activities,
                 current: acInfo.pageNum,
                 total: acInfo.totalNum
             })
+            //console.log("saveActivity: ",acInfo.activities);
+            this.props.saveActivity(acInfo.activities)
         }
 
 
     }
 
     updateActivityStatus = async ({ id, acStatus }) => {
-        let newStatus = acStatus == 1 ? 0 : 1;
+        let newStatus = acStatus === 1 ? 0 : 1;
         console.log("newStatus: ", newStatus)
         let result = await updateAcStatus(id, newStatus);
         if (result === 1) {
@@ -133,8 +136,11 @@ export default class Product extends Component {
                 title: 'Control',
                 //dataIndex: 'id',
                 key: 'Control',
-                render: (text, record, index) => {
-                    return <Button type="link" /*onClick={() => this.showUpdate(record)}*/>Update</Button>
+                render: (item) => {
+                    return  <div>
+                        <Button  onClick={() => {this.props.history.push(`/admin/prod_about/product/detail/${item.id}`)}}>Detail</Button>
+                        <Button type="link" onClick={() => {this.props.history.push(`/admin/prod_about/product/add_update/${item.id}`)}}>Update</Button>
+                    </div> 
                 },
                 width: '10%',
                 align: 'center'
@@ -159,7 +165,7 @@ export default class Product extends Component {
                         </div>
                     }
                     extra={
-                        <Button onClick={console.log("")}>ADD+</Button>
+                        <Button onClick={() => {this.props.history.push('/admin/prod_about/product/add_update')}}>ADD+</Button>
                     } >
                     <Table
                         dataSource={dataSource}
@@ -181,3 +187,13 @@ export default class Product extends Component {
         )
     }
 }
+
+
+let withProduct = withRouter(Product)
+export default connect(
+    state => ({
+    }),
+    {
+        saveActivity: createSaveAcAction
+    }
+)(withProduct)

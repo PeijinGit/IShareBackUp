@@ -35,6 +35,7 @@ class Header extends Component {
     getTitle=()=>{
         let pathKey = this.props.location.pathname.split('/').reverse()[0]
         let title = ''
+        if(this.props.location.pathname.indexOf('product') !== -1) pathKey='product'
         myMenu.forEach((item)=>{
             if(item.children instanceof Array){
                 let tmp = item.children.find((citem)=>{

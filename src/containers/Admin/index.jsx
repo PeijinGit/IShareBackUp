@@ -13,6 +13,8 @@ import Home from "./home";
 import Line from "./line";
 import Pie from "./pie";
 import Product from "./product";
+import Detail from "./product/detail.jsx"
+import AddUpdate from "./product/add_update.jsx";
 import Role from "./role";
 import User from "./user";
 import Bar from "./bar";
@@ -45,17 +47,11 @@ class Admin extends Component {
 
     render() {
         const { isLogin } = this.props.userInfo
-        //alert("Admin: " + isLogin)
         if (isLogin === false) {
             alert("No login info");
             return <Redirect to="/login" />
         }
         return (
-            // <div>
-            //     admin:{this.props.userInfo.user.id}
-            //     <button onClick={this.clearLocal}>clear</button>
-            //     <button onClick={this.acquireEvents}>sendTest</button>
-            // </div>
             <Layout className="admin">
                 <Sider className="sider">
                     <Left_nav/>
@@ -66,7 +62,10 @@ class Admin extends Component {
                             <Switch>
                                 <Route path="/admin/home" component={Home}/>
                                 <Route path="/admin/prod_about/category" component={Category}/>
-                                <Route path="/admin/prod_about/product" component={Product}/>
+                                <Route path="/admin/prod_about/product" component={Product} exact/>
+                                <Route path="/admin/prod_about/product/detail/:id" component={Detail}/>
+                                <Route path="/admin/prod_about/product/add_update" component={AddUpdate} exact/>
+                                <Route path="/admin/prod_about/product/add_update/:id" component={AddUpdate}/>
                                 <Route path="/admin/user" component={User}/>
                                 <Route path="/admin/role" component={Role}/>
                                 <Route path="/admin/bar" component={Bar}/>
@@ -77,13 +76,11 @@ class Admin extends Component {
                     </Content>
                     <Footer className="footer">Footer</Footer>
                 </Layout>
-                {/* <button onClick={this.acquireEvents}>sendTest</button> */}
             </Layout>
 
         )
     }
 }
-
 export default connect(
     state => ({ userInfo: state.userInfo }),
     {
